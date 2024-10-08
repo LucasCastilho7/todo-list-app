@@ -3,7 +3,7 @@
 
 dart run lint_staged
 
-echo -e "===\n>> Pre-commit Hook:: Checando nome da branch..."
+echo -e "===\n>> Executando hook pre-commit..."
 branchName=$(git branch | grep '*' | sed 's/* //')
 
 if [ $branchName == 'master' ]
