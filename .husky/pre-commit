@@ -2,3 +2,20 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 dart run lint_staged
+
+echo -e "===\n>> Pre-commit Hook:: Checando nome da branch..."
+branchName=$(git branch | grep '*' | sed 's/* //')
+
+if [ $branchName == 'master' ]
+then
+  echo -e "\n🚫 Não é permitido executar commits direto na branch master\n" && exit 1
+fi
+
+if [ $branchName == 'development' ]
+then
+  echo -e "\n🚫 Não é permitido executar commits na branch development, crie sua branch e abra um PR.\n" && exit 1
+fi
+
+echo -e ">> Processo finalizado.\n==="
+
+exit 0
