@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_list_app/auth.dart';
+import 'package:todo_list_app/pages/tarefas/registro_tarefas.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -22,7 +23,19 @@ class HomePage extends StatelessWidget {
   Widget _signOutButton() {
     return ElevatedButton(
       onPressed: signOut,
-      child: const Text('signOut'),
+      child: const Text('Sign Out'),
+    );
+  }
+
+  Widget _newTaskButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const NewTaskScreen()),
+        );
+      },
+      child: const Text('Nova Tarefa'),
     );
   }
 
@@ -40,6 +53,7 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            _newTaskButton(context),
             _userUid(),
             _signOutButton(),
           ],
