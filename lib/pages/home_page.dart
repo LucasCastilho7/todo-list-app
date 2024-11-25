@@ -6,7 +6,7 @@ import 'package:todo_list_app/pages/tarefas/registro_tarefas.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  final User? user = Auth().currentUser ;
+  final User? user = Auth().currentUser;
 
   Future<void> signOut() async {
     await Auth().signOut();
@@ -14,21 +14,11 @@ class HomePage extends StatelessWidget {
 
   Widget _title() {
     return const Text(
-      'Bem-vindo ao Todo List',
+      'Bem-vindo ao Todo List!',
       style: TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.bold,
         color: Colors.white,
-      ),
-    );
-  }
-
-  Widget _userUid() {
-    return Text(
-      user?.email ?? 'User  email',
-      style: const TextStyle(
-        fontSize: 18,
-        color: Colors.white70,
       ),
     );
   }
@@ -39,7 +29,7 @@ class HomePage extends StatelessWidget {
       icon: const Icon(Icons.logout),
       label: const Text('Sair'),
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.red, 
+        backgroundColor: Colors.redAccent,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
     );
@@ -56,7 +46,7 @@ class HomePage extends StatelessWidget {
       icon: const Icon(Icons.add),
       label: const Text('Nova Tarefa'),
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue, // Cor do botão
+        backgroundColor: Colors.white70,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
     );
@@ -67,8 +57,8 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: _title(),
-        centerTitle: true, // Centraliza o título
-        backgroundColor: Colors.blueAccent, // Cor do AppBar
+        centerTitle: true,
+        backgroundColor: Colors.blueAccent,
       ),
       body: Container(
         height: double.infinity,
@@ -86,9 +76,8 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _newTaskButton(context),
-            const SizedBox(height: 20), // espaçamento entre os botões
-            _userUid(),
-            const SizedBox(height: 20), // espaçamento entre o texto e o botão de sair
+            const SizedBox(height: 20),
+            const SizedBox(height: 20),
             _signOutButton(),
           ],
         ),
