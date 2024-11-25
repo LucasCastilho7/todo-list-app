@@ -13,29 +13,42 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _title() {
-    return const Text('Firebase auth');
-  }
-
-  Widget _userUid() {
-    return Text(user?.email ?? 'User email');
+    return const Text(
+      'Bem-vindo ao Todo List!',
+      style: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    );
   }
 
   Widget _signOutButton() {
-    return ElevatedButton(
+    return ElevatedButton.icon(
       onPressed: signOut,
-      child: const Text('Sign Out'),
+      icon: const Icon(Icons.logout),
+      label: const Text('Sair'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.redAccent,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
     );
   }
 
   Widget _newTaskButton(BuildContext context) {
-    return ElevatedButton(
+    return ElevatedButton.icon(
       onPressed: () {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const NewTaskScreen()),
         );
       },
-      child: const Text('Nova Tarefa'),
+      icon: const Icon(Icons.add),
+      label: const Text('Nova Tarefa'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white70,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
     );
   }
 
@@ -44,17 +57,27 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: _title(),
+        centerTitle: true,
+        backgroundColor: Colors.blueAccent,
       ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
         padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blueAccent, Colors.lightBlueAccent],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _newTaskButton(context),
-            _userUid(),
+            const SizedBox(height: 20),
+            const SizedBox(height: 20),
             _signOutButton(),
           ],
         ),
