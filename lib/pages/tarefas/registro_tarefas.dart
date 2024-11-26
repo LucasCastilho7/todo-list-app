@@ -1,65 +1,95 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:todo_list_app/pages/tarefas/ver_tarefas.dart';
+import 'package:todo_list_app/repository/tarefa_repository.dart';
+import 'package:todo_list_app/model/tarefa.dart';
 
 class NewTaskScreen extends StatefulWidget {
-  const NewTaskScreen({super.key});
+  final Tarefa? tarefa;
+
+  const NewTaskScreen({super.key, this.tarefa});
 
   @override
   State<NewTaskScreen> createState() => _NewTaskScreenState();
 }
 
 class _NewTaskScreenState extends State<NewTaskScreen> {
-  final _formkey = GlobalKey<FormState>();
-  String taskName = "";
-  String taskDescription = "";
-  String recurrence = 'Diariamente';
+  final _formKey = GlobalKey<FormState>();
+  final TarefaRepository _repository = TarefaRepository();
+
+  late String taskName;
+  late String taskDescription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    taskName = widget.tarefa?.nome ?? "";
+    taskDescription = widget.tarefa?.descricao ?? "";
+  }
+
+  Future<void> _saveTask() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      final tarefa = Tarefa(nome: taskName, descricao: taskDescription);
+
+      if (widget.tarefa == null) {
+        await _repository.addTarefa(tarefa);
+      } else {
+        final id = widget.tarefa!.id!;
+        await _repository.updateTarefa(id, tarefa);
+      }
+
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ViewTasksScreen(),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Nova Tarefa")),
+      appBar: AppBar(
+        title: Text(widget.tarefa == null ? "Nova Tarefa" : "Editar Tarefa"),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          key: _formkey,
+          key: _formKey,
           child: Column(
             children: [
               TextFormField(
+                initialValue: taskName,
                 decoration: const InputDecoration(labelText: "Nome da Tarefa"),
-                onChanged: (value) {
-                  setState(() {
-                    taskName = value;
-                  });
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "O nome da tarefa é obrigatório.";
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  taskName = value!;
                 },
               ),
+              const SizedBox(height: 16),
               TextFormField(
+                initialValue: taskDescription,
                 decoration: const InputDecoration(labelText: "Descrição"),
-                onChanged: (value) {
-                  setState(() {
-                    taskDescription = value;
-                  });
-                },
-              ),
-              DropdownButtonFormField(
-                value: recurrence,
-                decoration: const InputDecoration(labelText: "Recorrência"),
-                items: ['Diariamente', 'Semanalmente', 'Mensalmente'].map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (newValue) {
-                  setState(() {
-                    recurrence = newValue!;
-                  });
+                onSaved: (value) {
+                  taskDescription = value!;
                 },
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  // WIP: Save task to Firebase
-                },
-                child: const Text("Salvar Tarefa"),
+                onPressed: _saveTask,
+                child: Text(widget.tarefa == null ? "Salvar Tarefa" : "Editar Tarefa"),
               ),
             ],
           ),

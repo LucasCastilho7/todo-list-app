@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_list_app/auth.dart';
 import 'package:todo_list_app/pages/tarefas/registro_tarefas.dart';
+import 'package:todo_list_app/pages/tarefas/ver_tarefas.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -52,6 +53,23 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  Widget _viewTasks(BuildContext context) {
+    return ElevatedButton.icon(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ViewTasksScreen()),
+        );
+      },
+      icon: const Icon(Icons.remove_red_eye),
+      label: const Text('Ver tarefas'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white70,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,6 +95,7 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             _newTaskButton(context),
             const SizedBox(height: 20),
+            _viewTasks(context),
             const SizedBox(height: 20),
             _signOutButton(),
           ],
