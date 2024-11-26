@@ -26,9 +26,10 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Widget _entryField(String title, TextEditingController controller) {
+  Widget _entryField(String title, TextEditingController controller, bool isPassword) {
     return TextField(
       controller: controller,
+      obscureText: isPassword,
       decoration: InputDecoration(labelText: title),
     );
   }
@@ -52,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
           MaterialPageRoute(builder: (context) => const RegisterPage()),
         );
       },
-      child: const Text('Go to register'),
+      child: const Text('Não possui conta? Registre-se'),
     );
   }
 
@@ -61,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Register',
+          'Login',
         ),
       ),
       body: Container(
@@ -72,8 +73,8 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _entryField('email', _controllerEmail),
-            _entryField('password', _controllerPassword),
+            _entryField('E-mail', _controllerEmail, false),
+            _entryField('Senha', _controllerPassword, true),
             _errorMessage(),
             _loginButton(),
             const SizedBox(height: 20),
