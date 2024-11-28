@@ -38,8 +38,12 @@ class _LoginPageState extends State<LoginPage> {
     return Text(errorMessage == '' ? '' : 'Ops! ${errorMessage ?? ''}');
   }
 
+  Widget _space() {
+    return const SizedBox(height: 16.0);
+  }
+
   Widget _loginButton() {
-    return ElevatedButton(
+    return FilledButton(
       onPressed: signInWithEmailAndPassword,
       child: const Text('Login'),
     );
@@ -74,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _entryField('E-mail', _controllerEmail, false),
+            _space(),
             _entryField('Senha', _controllerPassword, true),
             _errorMessage(),
             _loginButton(),
@@ -85,3 +90,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
