@@ -19,14 +19,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<void> createUserWithEmailAndPassword() async {
     try {
-      await Auth().createUserWithEmailAndPassword(
-          email: _controllerEmail.text, password: _controllerPassword.text);
+      await Auth().createUserWithEmailAndPassword(email: _controllerEmail.text, password: _controllerPassword.text);
 
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-            (Route<dynamic> route) => false,
-      );
+      if (mounted) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+          (Route<dynamic> route) => false,
+        );
+      }
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
@@ -34,10 +35,10 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  Widget _entryField(String title, TextEditingController controller) {
+  Widget _entryField(String title, TextEditingController controller, bool isPassword) {
     return TextField(
       controller: controller,
-      obscureText: false,
+      obscureText: isPassword,
       decoration: InputDecoration(
         labelText: title,
       ),
@@ -51,13 +52,13 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _registerButton() {
     return FilledButton(
       onPressed: createUserWithEmailAndPassword,
-      child: const Text('Register'),
+      child: const Text('Registre-se'),
     );
   }
 
   Widget _registerText() {
     return const Text(
-      'Register',
+      'Registre-se',
       textAlign: TextAlign.center,
       style: TextStyle(fontSize: 36.0, fontWeight: FontWeight.w600),
     );
@@ -65,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _welcomeRegisterText() {
     return const Text(
-      "Create an account. It's free",
+      "Crie sua conta. É de graça!",
       textAlign: TextAlign.center,
       style: TextStyle(fontSize: 20.0),
     );
@@ -80,17 +81,17 @@ class _RegisterPageState extends State<RegisterPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
-          "Already have an account?",
+          "Já possui uma conta?",
         ),
         TextButton(
             onPressed: () {
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginPage()),
-                    (Route<dynamic> route) => false,
+                (Route<dynamic> route) => false,
               );
             },
-            child: const Text('Login'))
+            child: const Text('Entre agora!'))
       ],
     );
   }
@@ -104,7 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Register',
+          'Registre-se',
         ),
       ),
       body: Container(
@@ -118,9 +119,9 @@ class _RegisterPageState extends State<RegisterPage> {
             _registerText(),
             _welcomeRegisterText(),
             _expandedContainer(),
-            _entryField('email', _controllerEmail),
+            _entryField('E-mail', _controllerEmail, false),
             _space(),
-            _entryField('password', _controllerPassword),
+            _entryField('Senha', _controllerPassword, true),
             _errorMessage(),
             _registerButton(),
             _expandedContainer(),
