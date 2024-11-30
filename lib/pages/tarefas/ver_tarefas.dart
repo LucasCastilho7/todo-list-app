@@ -60,10 +60,10 @@ class _ViewTasksScreenState extends State<ViewTasksScreen> with RouteAware {
       appBar: AppBar(
         title: const Text("Tarefas"),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.notification_add),
-            onPressed: showNotification,
-            tooltip: 'Testar notificação',
+          const IconButton(
+            icon: Icon(Icons.notification_add),
+            onPressed: null,
+            tooltip: 'Em breve!',
           ),
         ],
       ),
