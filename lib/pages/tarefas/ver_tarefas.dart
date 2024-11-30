@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list_app/model/custom_notification.dart';
 import 'package:todo_list_app/repository/tarefa_repository.dart';
 import 'package:todo_list_app/model/tarefa.dart';
 import 'package:todo_list_app/pages/tarefas/registro_tarefas.dart';
+import 'package:todo_list_app/service/notification_service.dart';
 
 class ViewTasksScreen extends StatefulWidget {
   const ViewTasksScreen({super.key});
@@ -11,6 +14,7 @@ class ViewTasksScreen extends StatefulWidget {
 }
 
 class _ViewTasksScreenState extends State<ViewTasksScreen> with RouteAware {
+  final NotificationService notificationService = NotificationService();
   final TarefaRepository _repository = TarefaRepository();
   List<Tarefa> _tarefas = [];
 
@@ -18,6 +22,11 @@ class _ViewTasksScreenState extends State<ViewTasksScreen> with RouteAware {
   void initState() {
     super.initState();
     _loadTasks();
+    checkForNotifications();
+  }
+
+  checkForNotifications() async {
+    await Provider.of<NotificationService>(context, listen: false).checkForNotifications();
   }
 
   @override
@@ -35,13 +44,29 @@ class _ViewTasksScreenState extends State<ViewTasksScreen> with RouteAware {
 
   Future<void> _deleteTask(int id) async {
     await _repository.deleteTarefa(id);
-    await _loadTasks(); // Atualiza a lista após exclusão
+    await _loadTasks();
+  }
+
+  showNotification() {
+    notificationService.showNotification(
+      CustomNotification(
+          id: 1, title: 'Você tem tarefas pendentes!', body: 'Clique para visualizar suas tarefas.', payload: '/tasks'),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Tarefas")),
+      appBar: AppBar(
+        title: const Text("Tarefas"),
+        actions: [
+          const IconButton(
+            icon: Icon(Icons.notification_add),
+            onPressed: null,
+            tooltip: 'Em breve!',
+          ),
+        ],
+      ),
       body: _tarefas.isEmpty
           ? const Center(child: Text("Nenhuma tarefa encontrada"))
           : ListView.builder(
