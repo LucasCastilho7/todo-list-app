@@ -8,12 +8,12 @@
   - Andrêei Ferreira Pessoa da Silva - 12723128471
   - Rodrigo Santos de Almeida - 823131251
 
-## Apresentação
-# Vídeo
+# Apresentação
+## Vídeo
 - [Vídeo de apresentação do app](https://www.youtube.com/shorts/8IemCzBtp20)
 - [Vídeo de apresentação do código do app](https://www.youtube.com/watch?v=_NU3rgcprrI)
 
-# Documento
+## Documento
 Clique [aqui](https://pdfupload.io/docs/f33c99cb) para abrir o documento PDF.
 
 
