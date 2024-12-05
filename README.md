@@ -17,6 +17,6 @@
 Clique [aqui](https://pdfupload.io/docs/f33c99cb) para abrir o documento PDF.
 
 ## Download
-[Baixar o app](https://drive.google.com/file/d/1BrOLnloWCIz5fqu9oEL26dOSmX4IXNMB/view?usp=drive_link)
+[Baixar o app](https://github.com/LucasCastilho7/todo-list-app/releases/tag/v1.0)
 
 
